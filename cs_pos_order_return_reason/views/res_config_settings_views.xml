@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="sh_res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.sh_pos_order_list</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <div id="pos_interface_section" position="after">
+                <h2>Order Return Reason</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-xs-6 col-md-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="pos_enable_order_return_reason" />
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="pos_enable_order_return_reason" />
+                            <div class="text-muted" id="order_return" >
+	                            Allow to Write Reason When Return Order
+	                        </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-md-6 o_setting_box" attrs="{'invisible': [('pos_enable_order_return_reason','=',False)]}">
+                        <div class="o_setting_left_pane">
+                            <field name="pos_display_reason_in_receipt" />
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="pos_display_reason_in_receipt" />
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-md-6 o_setting_box" attrs="{'invisible': [('pos_enable_order_return_reason','=',False)]}">
+                        <div class="o_setting_left_pane">
+                            <field name="pos_is_reason_compulsory" />
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="pos_is_reason_compulsory" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </field>
+    </record>
+</odoo>

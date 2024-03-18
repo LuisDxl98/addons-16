@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cs_pos_order_settings_pos_note" model="ir.ui.view">
+        <field name="name">pos.config.settings.pos.order</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="cs_return_reason" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
