@@ -5,7 +5,7 @@
     'license': 'LGPL-3',
     'category': 'Pos',
     'depends': [
-        'base','point_of_sale'
+        'base','point_of_sale','contacts'
     ],
     'data': [
         'views/res_partner.xml'

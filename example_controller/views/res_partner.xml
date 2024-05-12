@@ -9,8 +9,17 @@
             <field name="vat" position="after">
                 <field name="vendor_id" />
                 <field name="vendor_name"/>
+                <field name="superuser_ids" widget="many2many_tags"/>
             </field>
         </field>
+    </record>
+
+    <record id="contacts.action_contacts" model="ir.actions.act_window">
+        <field name="domain">['|',('create_uid', '=', uid),('superuser_ids','in',uid)]</field>
+    </record>
+
+    <record id="account.res_partner_action_customer" model="ir.actions.act_window">
+        <field name="domain">['|',('create_uid', '=', uid),('superuser_ids','in',uid)]</field>
     </record>
 
 </odoo>

@@ -6,3 +6,14 @@ class ResPartnerCustomFields(models.AbstractModel):
 
     vendor_id = fields.Integer(related='create_uid.id', string="ID del vendedor")
     vendor_name = fields.Char(related='create_uid.name', string="Nombre del vendedor")
+    superuser_ids = fields.Many2many("res.users", compute='_compute_res_users_admins', store=True )
+    
+    @api.depends('name')
+    def _compute_res_users_admins(self):
+        for record in self:
+            admin_group_id = self.env.ref('base.group_erp_manager').id
+            admins = self.env['res.users'].sudo().search([('groups_id', 'in', [admin_group_id])])
+            record.superuser_ids = admins
+    
+    
+    
