@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
 
+import logging
+_logger = logging.getLogger(__name__)
+
+
+
 class ResPartnerCustomFields(models.AbstractModel):
     _inherit = 'res.partner'
 
@@ -14,6 +19,21 @@ class ResPartnerCustomFields(models.AbstractModel):
             admin_group_id = self.env.ref('base.group_erp_manager').id
             admins = self.env['res.users'].sudo().search([('groups_id', 'in', [admin_group_id])])
             record.superuser_ids = admins
-    
+
+    @api.model
+    def create(self, vals):
+        # Agregar codigo de validacion aca
+        
+        contact = super(ResPartnerCustomFields, self).create(vals)
+        
+        if contact:
+            if contact.create_uid:
+                _logger.warning("XXXXXXXXX SE CREO UN CONTACTO XXXXXXXX")
+                _logger.warning(contact.create_uid.id)
+                contact.write({'user_id': contact.create_uid.id})
+        
+        return contact
+                
+
     
     
