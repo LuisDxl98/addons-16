@@ -15,11 +15,11 @@
     </record>
 
     <record id="contacts.action_contacts" model="ir.actions.act_window">
-        <field name="domain">['|',('create_uid', '=', uid),('superuser_ids','in',uid)]</field>
+        <field name="domain">['|',('user_id', '=', uid),('superuser_ids','in',uid)]</field>
     </record>
 
     <record id="account.res_partner_action_customer" model="ir.actions.act_window">
-        <field name="domain">['|',('create_uid', '=', uid),('superuser_ids','in',uid)]</field>
+        <field name="domain">['|',('user_id', '=', uid),('superuser_ids','in',uid)]</field>
     </record>
 
 </odoo>
