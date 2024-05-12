@@ -9,4 +9,6 @@ class POSSession(models.Model):
     def _loader_params_res_partner(self):
         res = super()._loader_params_res_partner()
         res["search_params"]["fields"].append("credit")
+        res["search_params"]["fields"].append("vendor_id")
+        res["search_params"]["fields"].append("barcode")
         return res

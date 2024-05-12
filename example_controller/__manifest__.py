@@ -7,7 +7,9 @@
     'depends': [
         'base','point_of_sale'
     ],
-    'data': [],
+    'data': [
+        'views/res_partner.xml'
+    ],
     'auto_install': False,
     'application': False
 }
