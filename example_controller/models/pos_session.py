@@ -11,4 +11,5 @@ class POSSession(models.Model):
         res["search_params"]["fields"].append("credit")
         res["search_params"]["fields"].append("vendor_id")
         res["search_params"]["fields"].append("barcode")
+        res["search_params"]["fields"].append("vendor_name")
         return res

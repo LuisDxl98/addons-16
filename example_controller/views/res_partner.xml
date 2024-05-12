@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <field name="vat" position="after">
                 <field name="vendor_id" />
+                <field name="vendor_name"/>
             </field>
         </field>
     </record>
