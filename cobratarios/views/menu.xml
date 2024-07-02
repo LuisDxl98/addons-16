@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem 
+        name="Centro de cobro" 
+        id="menu_cobratarios_model_root" 
+        groups="cobratarios.group_user_admin_centro_cobro,cobratarios.group_user_centro_cobro" 
+        web_icon="cobratarios,static/description/icon.png"
+    />
+
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_partner_inherit_module_cobratarios" model="ir.ui.view">
+        <field name="name">model.cobratarios.view.form.res.partner.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <field name="cobratario_id" />
+                <field name="folio_tarjeta" />
+                <field name="ruta_id" />
+            </field>
+            <field name="category_id" position="after">
+                <field name="ultima_fecha_pago" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

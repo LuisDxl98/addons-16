@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cobratarios_model_category" model="ir.module.category">
+        <field name="name">Centro de cobro</field>
+        <field name="sequence">40</field>
+        <field name="visible" eval="True" />
+        <field name="description">Permisos de acceso para el modulo de cobro</field>
+    </record>
+
+	<record id="group_user_admin_centro_cobro" model="res.groups">
+        <field name="name">Administrador</field>
+        <field name="category_id" ref="cobratarios_model_category"/>
+        <field name="users" eval="[(4, ref('base.user_root'))]"/>  
+    </record>
+
+    <record id="group_user_centro_cobro" model="res.groups">
+        <field name="name">Cobratario</field>
+        <field name="category_id" ref="cobratarios_model_category"/>
+    </record>
+
+</odoo>

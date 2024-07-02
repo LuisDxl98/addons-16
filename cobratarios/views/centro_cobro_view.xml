@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="centro_de_cobro_view_form" model="ir.ui.view">
+        <field name="name">centro.de.cobro.view.form</field>
+        <field name="model">centro.de.cobro</field>
+        <field name="arch" type="xml">
+            <form string="Centro de cobro">
+                <style>
+                    .o_form_sheet{
+                        max-width: fit-content !important;
+                    }
+                    tr{
+                        border-color: inherit;
+                        border-style: solid;
+                        border-width: 3px !important;
+                    }
+                    th{
+                        padding: 9px !important;
+                        text-align: center !important;
+                        
+                    }
+                    thead, tbody, tfoot, tr, td, th {
+                        border-width: 3px !important;
+                    }
+                    thead{
+                        background: #93e1e1 !important;
+                    }
+                    table{
+                        font-size: large !important;
+                    }
+                    .badge{
+                        font-size: large !important;
+                    }
+                    .btn-warning{
+                        font-size: large !important;
+                        border-radius: 2rem !important;
+                        padding: 0.5rem 2rem !important;
+                    }
+                    .btn-success{
+                        font-size: large !important;
+                        border-radius: 2rem !important;
+                        padding: 0.5rem 2rem !important;
+                    }
+                    .btn-danger{
+                        font-size: large !important;
+                        border-radius: 2rem !important;
+                        padding: 0.5rem 2rem !important;
+                    }
+                </style>
+                <header>
+                    <button 
+                        name="save_cobro" 
+                        type="object" 
+                        string="Guardar" 
+                        class="btn btn-default" 
+                        attrs="{'invisible':[('state', '!=', 'draft')]}"
+                    />
+                    <button 
+                        name="cancelar_cobro" 
+                        type="object" 
+                        string="Cancelar" 
+                        class="btn btn-danger"
+                        attrs="{'invisible':[('state', '!=', 'generado')]}"
+                    />
+                    <button 
+                        name="aplicar_cobros" 
+                        type="object" 
+                        string="Generar Cobros" 
+                        class="btn btn-success"
+                        attrs="{'invisible':[('state', '!=', 'generado')]}"
+                        confirm="Solo precione esto cuando ya haya terminado de capturar el pago de todos los clientes, ¿Desea continuar?"
+                    />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,generado,cobrado,cancelado"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="cobratario_id" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="total_cobrado" />
+                        </group>
+                        <group>
+                            <field name="fecha_de_carga" readonly="1" widget="date"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <group colspan="4">
+                        <field name="pago_de_clientes_ids" attrs="{'readonly':[('state', 'in',['cobrado','cancelado'])]}">
+                            <tree create="false" delete="false" editable="botton">
+                                <!-- <field name="cobratario_id" /> -->
+                                <field name="cliente_id" readonly="1"/>
+                                <field name="articulo_id" />
+                                <field name="currency_id" invisible="1"/>
+                                <field name="tipo_pago" />
+                                <field name="amount" />
+                                <field name="credito" />
+                                <field name="credito_final" />
+                                <!-- <field name="fecha_cobro" /> -->
+                            </tree>
+                        </field>
+                    </group>
+                    <hr/>
+                    <group colspan="4">
+                        <field name="cobros_generados" readonly="1">
+                            <tree create="false" delete="false" editable="botton">
+                                <field name="name" readonly="1"/>
+                                <field name="partner_id" readonly="1"/>
+                                <field name="amount" readonly="1"/>
+                                <field name="date" readonly="1"/>
+                                <field name="journal_id" readonly="1"/>
+                                <field name="state" widget="badge" decoration-success="state == 'posted'" />
+                                <button 
+                                    name="action_draft" 
+                                    type="object" 
+                                    string="Revertir cobro" 
+                                    class="btn btn-warning"
+                                    attrs="{'invisible':[('state', '=', 'draft')]}"
+                                    confirm="Esta acción devolverá el saldo cobrado nuevamente al crédito del cliente, ¿Desea continuar?"
+                                />
+                                <button 
+                                    name="action_post" 
+                                    type="object" 
+                                    string="Aplicar cobro" 
+                                    class="btn btn-success"
+                                    attrs="{'invisible':[('state', '=', 'posted')]}"
+                                />
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="centro_de_cobro_view_tree" model="ir.ui.view">
+        <field name="name">centro.de.cobro.view.tree</field>
+        <field name="model">centro.de.cobro</field>
+        <field name="arch" type="xml">
+            <tree string="Centro de cobro" class="fs-2">
+                <field name="cobratario_id" />
+                <field name="fecha_de_carga" widget="date"/>
+                <field name="state" widget="badge" decoration-success="state == 'cobrado'" decoration-danger="state == 'cancelado'" decoration-info="state == 'generado'"/>
+                <field name="total_cobrado" sum="Total"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="centro_de_cobro_search_view" model="ir.ui.view">
+        <field name="name">centro.de.cobro.view.search</field>
+        <field name="model">centro.de.cobro</field>
+        <field name="arch" type="xml">
+            <search>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_cobratario" string="Agrupar por Cobratario" context="{'group_by':'cobratario_id'}" />
+                    <filter name="group_by_date" string="Agrupar por Fecha" context="{'group_by':'fecha_de_carga'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="centro_de_obro_action" model="ir.actions.act_window">
+        <field name="name">Centro de cobro</field>
+        <field name="res_model">centro.de.cobro</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem 
+        name="Centro de cobro" 
+        id="centro_de_cobro_menu" 
+        parent="cobratarios.menu_cobratarios_model_root" 
+        action="centro_de_obro_action"
+        sequence="1" 
+    />
+
+</odoo>
