@@ -2,7 +2,6 @@
 from odoo import models, fields, api
 from datetime import datetime
 
-
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -68,6 +67,9 @@ class CentroDeCobro(models.Model):
                     'journal_id': 8 if pago.tipo_pago == 'banco' else 7,
                 })
                 if cobro:
+                    pago.cliente_id.sudo().write({
+                        'ultima_fecha_pago': datetime.today().date()
+                    })
                     self.cobros_generados = [(4, cobro.id)]
                     cobro.action_post()
         self.state = 'cobrado'
@@ -82,9 +84,14 @@ class CentroDeCobro(models.Model):
 class ApartadoCobro(models.Model):
     _name = 'apartado.cobro.clientes'
 
+
     cliente_id = fields.Many2one(string='Cliente', comodel_name='res.partner', required=True)
 
-    articulo_id = fields.Char(string='Articulo', related='cliente_id.barcode')
+    cobratario_id = fields.Many2one(string='Cobratario', comodel_name='res.users', related='cliente_id.cobratario_id', store=True)
+    
+    articulo_id = fields.Char(string='Articulo', related='cliente_id.barcode', store=True)
+
+    ruta_name = fields.Char(string="Ruta de cobro", related='cliente_id.ruta_id.name', store=True)
 
     currency_id = fields.Many2one('res.currency', string='Currency', related='cliente_id.currency_id', store=True, readonly=True)
 
@@ -92,7 +99,7 @@ class ApartadoCobro(models.Model):
 
     credito_final = fields.Monetary(string='Despues del cobro', currency_field='currency_id', compute='_compute_credito_final' )
     
-    @api.depends('credito')
+    @api.depends('credito','amount')
     def _compute_credito_final(self):
         for record in self:
             if record.amount:

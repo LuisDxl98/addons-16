@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="apartado_cobro_clientes_view_tree" model="ir.ui.view">
+        <field name="name">apartado.cobro.clientes.view.tree</field>
+        <field name="model">apartado.cobro.clientes</field>
+        <field name="arch" type="xml">
+            <tree string="Cobros">
+                <field name="cobratario_id" />
+                <field name="fecha_cobro" />
+                <field name="cliente_id"/>
+                <field name="ruta_name" />
+                <field name="articulo_id" />
+                <field name="currency_id" invisible="1"/>
+                <field name="tipo_pago" />
+                <field name="amount" />
+                <field name="credito" />
+                <field name="credito_final" string="Crédito despues del cobro"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="apartado_cobro_clientes_action" model="ir.actions.act_window">
+        <field name="name">Reporte de pagos</field>
+        <field name="res_model">apartado.cobro.clientes</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem 
+        name="Reportes de pagos" 
+        id="apartado_cobro_clientes_menu" 
+        parent="cobratarios.menu_cobratarios_model_root" 
+        action="apartado_cobro_clientes_action"
+        sequence="2" 
+    />
+
+</odoo>

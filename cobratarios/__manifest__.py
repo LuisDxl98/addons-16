@@ -13,6 +13,8 @@
         'views/menu.xml',
         'views/res_partner.xml',
         'views/centro_cobro_view.xml',
+        'views/pagos_clientes_view.xml',
+        'data/cron.xml',
     ],
     'auto_install': False,
     'application': True,

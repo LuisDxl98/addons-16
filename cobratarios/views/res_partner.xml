@@ -13,6 +13,11 @@
             </field>
             <field name="category_id" position="after">
                 <field name="ultima_fecha_pago" />
+                <field name="estado_pago" widget="badge" 
+                    decoration-success="estado_pago == 'al_corriente'"
+                    decoration-warning="estado_pago == 'en_espera'"
+                    decoration-danger="estado_pago == 'atrasado'"
+                />
             </field>
         </field>
     </record>

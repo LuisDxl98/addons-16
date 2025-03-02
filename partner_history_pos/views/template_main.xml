@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="history_partner_main_template" name="Historial de Clientes">
+        <t t-call="website.layout">
+            <div class="container" style="padding: 1rem;">
+
+                <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">Comercial Géminis - Clientes</a>
+                        <div class="d-flex gap-3" id="navbarSupportedContent">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Estado de pago
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/history">Ver todos</a></li>
+                                    <li><hr class="dropdown-divider"/></li>
+                                    <li><a class="dropdown-item" href="/history?estado=al_corriente">Al corriente (Menos de 1 mes)</a></li>
+                                    <li><hr class="dropdown-divider"/></li>
+                                    <li><a class="dropdown-item" href="/history?estado=en_espera">En espera (Entre 1 mes y 3 meses)</a></li>
+                                    <li><hr class="dropdown-divider"/></li>
+                                    <li><a class="dropdown-item" href="/history?estado=atrasado">Atrasados (Más de 3 meses)</a></li>
+                                </ul>
+                            </div>
+                            <form class="d-flex" action="/history" method="GET">
+                                <input style="width: 20rem;" class="form-control me-2" type="search" name="search" placeholder="Folio o Nombre del Cliente" aria-label="Search" t-att-value="search"/>
+                                <button class="btn btn-light" type="submit">Buscar</button>
+                            </form>
+                        </div>
+                    </div>
+                </nav>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Folio de tarjeta</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Crédito</th>
+                            <th scope="col">Ultima fecha de pago</th>
+                            <th scope="col">Estado de Pago</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="contactos" t-as="contacto">    
+                            <tr t-if="contacto.credit != 0.00">
+                                <th scope="row">
+                                    <t t-esc="contacto.folio_tarjeta"/>
+                                </th>
+                                <td>
+                                    <t t-esc="contacto.display_name"/>
+                                </td>
+                                <td>
+                                    <span t-field="contacto.credit"/>
+                                </td>
+                                <td>
+                                    <span t-field="contacto.ultima_fecha_pago"/>
+                                </td>
+                                <td>
+                                    <span t-attf-class="badge bg-#{'success' if contacto.estado_pago == 'al_corriente' else 'warning ' if contacto.estado_pago == 'en_espera' else 'danger ' if contacto.estado_pago == 'atrasado' else 'success' }" t-field="contacto.estado_pago"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>
